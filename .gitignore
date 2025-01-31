@@ -1,0 +1,26 @@
+node_modules
+# Keep environment variables out of version control
+.env
+.venv
+.idea
+.vscode
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.development
+# database
+*.db
+*.db-journal
+
+#lock files
+*.lock
+
+# cache
+__pycache__
+*.pyc
+# logs
+logs
+*.log
+# misc
+.DS_Store

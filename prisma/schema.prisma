@@ -1,0 +1,92 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+// Define your own datamodel and use it in your code
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+// generator
+generator client {
+  provider             = "prisma-client-py"
+  recursive_type_depth = 5
+}
+
+// models
+model User {
+  id         Int       @id @default(autoincrement())
+  name       String
+  email      String    @unique
+  phone      String
+  street     String
+  zipcode    String
+  house_no   String
+  complement String
+  city       String
+  state      String
+  country    String
+  username   String    @unique
+  password   String
+  role       String    @default("user")
+  is_active  Boolean   @default(true)
+  is_admin   Boolean   @default(false)
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  Session    Session[]
+
+  @@map("users")
+}
+
+model Session {
+  id         Int      @id @default(autoincrement())
+  user_id    Int
+  user       User     @relation(fields: [user_id], references: [id])
+  token      String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  expired_at DateTime
+  is_active  Boolean  @default(true)
+
+  @@map("sessions")
+}
+
+model ProductGroup {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  Product     Product[]
+
+  @@map("product_groups")
+}
+
+model Product {
+  id               Int               @id @default(autoincrement())
+  name             String
+  description      String
+  image            String
+  product_group_id Int
+  product_group    ProductGroup      @relation(fields: [product_group_id], references: [id])
+  created_at       DateTime          @default(now())
+  updated_at       DateTime          @updatedAt
+  ProductMovement  ProductMovement[]
+
+  @@map("products")
+}
+
+model ProductMovement {
+  id         Int      @id @default(autoincrement())
+  product_id Int
+  product    Product  @relation(fields: [product_id], references: [id])
+  quantity   Int
+  type       String   @default("in")
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("product_movements")
+}
