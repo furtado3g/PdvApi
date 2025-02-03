@@ -21,14 +21,14 @@ model User {
   id         Int       @id @default(autoincrement())
   name       String
   email      String    @unique
-  phone      String
-  street     String
-  zipcode    String
-  house_no   String
-  complement String
-  city       String
-  state      String
-  country    String
+  phone      String?
+  street     String?
+  zipcode    String?
+  house_no   String?
+  complement String?
+  city       String?
+  state      String?
+  country    String?
   username   String    @unique
   password   String
   role       String    @default("user")
